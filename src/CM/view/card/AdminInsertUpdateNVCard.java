@@ -54,12 +54,13 @@ public class AdminInsertUpdateNVCard extends javax.swing.JPanel {
     
     private boolean check() throws SQLException{
         if (cmdAddUpd.getText().equals("Sửa")) return true;
-        if (txtTenNV.getText().isBlank()) return false;
+        if (txtTenNV.getText().trim().isEmpty()) return false;
         if (!txtSDT.getText().matches("-?\\d+(\\.\\d+)?")) return false;
         if (txtSDT.getText().length() != 10) return false;
         if (!txtLuong.getText().matches("-?\\d+(\\.\\d+)?")) return false;
         if (!txtEmail.getText().contains("@gmail.com")) return false;
         for (ModelNhanVien model : service.getListNV()){
+            if (model.getTaiKhoan() == null) continue;
             if (model.getTaiKhoan().equals(txtTaiKhoan.getText())){
                 return false;
             }

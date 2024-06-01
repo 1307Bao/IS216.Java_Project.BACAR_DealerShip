@@ -920,6 +920,10 @@ COMPOUND TRIGGER
             UPDATE KHACHHANG 
             SET LOAIKH = 'VIP'
             WHERE MAKH = N_MAKH;
+        ELSE     
+            UPDATE KHACHHANG 
+            SET LOAIKH = 'Thuong'
+            WHERE MAKH = N_MAKH;
         END IF;
     END AFTER STATEMENT;
 END;

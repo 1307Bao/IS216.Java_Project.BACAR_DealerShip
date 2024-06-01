@@ -76,6 +76,8 @@ public class AdminSPForm extends javax.swing.JPanel {
     private void initSP(){
         int i = 1;
         for (ModelXe data : list){
+            if (i % 25 == 0) i++;
+            i = i % 25;
             data.setXeImg(new ImageIcon(getClass().getResource("/com/view/icon/Car" + i +".png")));
             i++;
             form.addSP(data);

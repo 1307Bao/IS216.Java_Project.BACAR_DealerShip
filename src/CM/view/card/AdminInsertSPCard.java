@@ -271,7 +271,13 @@ public class AdminInsertSPCard extends javax.swing.JPanel {
                     ModelXe model1 = null;
                     for (ModelXe data: service.getListXe()){
                         if (data.getTenXe().toLowerCase().equals(txtTenXe.getText().toLowerCase())){
-                            model1 = data;
+                            if (!data.getLoaiXe().toLowerCase().equals(cbLoaiXe.getSelectedItem().toString().toLowerCase())){
+                                lbReport.setText("Tên xe không đúng với loại xe trong hệ thống");
+                                return;
+                            } else{
+                                model1 = data;
+                            }
+                                
                         }
                     }
 
