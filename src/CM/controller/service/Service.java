@@ -284,14 +284,13 @@ public class Service {
     // Lấy MaLSC tiếp theo
     public int getMaLSC_next() throws SQLException{
         int id_next = 0;
-        String sql = "SELECT MIN(MaLSC) + 1 FROM LICHSUACHUA "
-                + "WHERE MaLSC + 1 NOT IN (SELECT MALSC FROM LICHSUACHUA)";
+        String sql = "SELECT MAX(MaLSC)FROM LICHSUACHUA ";
         PreparedStatement p = con.prepareStatement(sql);
         ResultSet r = p.executeQuery();
         while (r.next()){
             id_next = r.getInt(1);
         }
-        return id_next;
+        return id_next + 1;
     }
     
     // Thêm lịch sửa chữa
@@ -329,15 +328,14 @@ public class Service {
     
     // Sửa lịch sửa chữa
     public void updateLSC(ModelLichSuaChua data) throws SQLException{
-        String sql = "UPDATE LICHSUACHUA SET MaKH = ?, MaXe = ?, Ngay = TO_DATE(?, 'dd-mm-yyyy'), Ca = ?, MaNV = ? "
+        String sql = "UPDATE LICHSUACHUA SET MaXe = ?, Ngay = TO_DATE(?, 'dd-mm-yyyy'), Ca = ?, MaNV = ? "
                 + "WHERE MALSC = ?";
         PreparedStatement p = con.prepareStatement(sql);
-        p.setInt(1, data.getMaKH());
-        p.setInt(2, data.getMaXe());
-        p.setString(3, data.getNgay());
-        p.setInt(4, data.getCa());
-        p.setInt(5, data.getMaNV());
-        p.setInt(6, data.getMaLSC());
+        p.setInt(1, data.getMaXe());
+        p.setString(2, data.getNgay());
+        p.setInt(3, data.getCa());
+        p.setInt(4, data.getMaNV());
+        p.setInt(5, data.getMaLSC());
         p.execute();
         p.close();
     }        
@@ -628,6 +626,16 @@ public class Service {
         return list;
     }
     
+    public void updateKH(String tenKH, String sdt, int maKH) throws SQLException {
+        String sql = "UPDATE KHACHHANG SET TENKH = ?, SDT = ? WHERE MAKH = ?";
+        PreparedStatement p = con.prepareStatement(sql);
+        p.setInt(3, maKH);
+        p.setString(2, sdt);
+        p.setString(1, tenKH);
+        p.execute();
+        p.close();
+    }
+    
     //Lấy mã khách hàng tiếp theo
     public int getMaKH_next() throws SQLException {
         int id_next = 0;
@@ -841,5 +849,23 @@ public class Service {
             list.add(data);
         }
         return list;
+    }
+    
+    public void delPhuKien(int MaPK) throws SQLException{
+        String sql = "DELETE FROM PHUKIEN WHERE MAPK = ?";
+        PreparedStatement p = con.prepareStatement(sql);
+        p.setInt(1, MaPK);
+        p.execute();
+        p.close();
+    }
+    
+    public void updKhachHang(ModelKhachHang model) throws SQLException{
+        String sql = "UPDATE KHACHHANG SET TENKH = ?, SDT = ? WHERE MAKH = ?";
+        PreparedStatement p = con.prepareStatement(sql);
+        p.setString(1, model.getTenKH());
+        p.setString(2, model.getSoDT());
+        p.setInt(3, model.getMaKH());
+        p.execute();
+        p.close();
     }
 }

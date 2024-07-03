@@ -126,7 +126,7 @@ public class Frame_Admin extends javax.swing.JFrame {
 
                     case 6: {
                         try {
-                            main.showForm(new AdminKHForm(main));
+                            main.showForm(new AdminKHForm(main, dialog));
                         } catch (SQLException ex) {
                             Logger.getLogger(Frame_Admin.class.getName()).log(Level.SEVERE, null, ex);
                         }

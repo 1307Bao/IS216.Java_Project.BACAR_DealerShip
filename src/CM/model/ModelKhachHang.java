@@ -15,6 +15,12 @@ public class ModelKhachHang {
         this.soDT = soDT;
         this.loaiKH = loaiKH;
     }
+    
+    public ModelKhachHang(int maKH, String tenKH, String soDT) {
+        this.maKH = maKH;
+        this.tenKH = tenKH;
+        this.soDT = soDT;
+    }
 
     public int getMaKH() {
         return maKH;

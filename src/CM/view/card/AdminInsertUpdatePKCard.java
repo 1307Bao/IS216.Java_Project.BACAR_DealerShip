@@ -261,7 +261,9 @@ public class AdminInsertUpdatePKCard extends javax.swing.JPanel {
                     boolean check = true;
                     for (ModelPhuKien data: service.getListPhuKien()){
                         if (data.getTenPK().toLowerCase().equals(txtTenPK.getText().toLowerCase()) && data.getXuatXu().toLowerCase().equals(txtXuatXu.getText().toLowerCase())){
-                            lbReport.setText("Phụ kiện đã có sẵn");
+                            soLuong = data.getSoLuong() + soLuong;
+                            data.setSoLuong(soLuong);
+                            service.updatePhuKien(data);
                             check = false;
                             break;
                         }
@@ -279,10 +281,25 @@ public class AdminInsertUpdatePKCard extends javax.swing.JPanel {
                     Logger.getLogger(AdminInsertUpdatePKCard.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else{
-                int maPK = model.getMaPK();
-                ModelPhuKien data = new ModelPhuKien(maPK, ten, xuatXu, soLuong, giaNhap, giaBan);
                 try {
-                    service.updatePhuKien(data);
+                    int maPK = model.getMaPK();
+                    ModelPhuKien data = new ModelPhuKien(maPK, ten, xuatXu, soLuong, giaNhap, giaBan);
+                    for (ModelPhuKien dataPK : service.getListPhuKien()){
+                        if (dataPK.getTenPK().toLowerCase().equals(data.getTenPK().toLowerCase())
+                                && dataPK.getXuatXu().toLowerCase().equals(data.getXuatXu().toLowerCase())
+                                && dataPK.getMaPK() != data.getMaPK()){
+                            data.setMaPK(dataPK.getMaPK());
+                            data.setSoLuong(dataPK.getSoLuong() + data.getSoLuong());
+                            break;
+                        }
+                    }
+                    try {
+                        service.delPhuKien(maPK);
+                        service.updatePhuKien(data);
+                        
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AdminInsertUpdatePKCard.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 } catch (SQLException ex) {
                     Logger.getLogger(AdminInsertUpdatePKCard.class.getName()).log(Level.SEVERE, null, ex);
                 }
